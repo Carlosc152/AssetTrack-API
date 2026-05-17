@@ -25,11 +25,20 @@ public class AssetController {
         assets.forEach(asset -> logger.info(asset.toString()));
         return assets;
     }
-
+    // Guardar un producto http://localhost:8080/asset-app/assets
     @PostMapping("assets")
     public Asset addAsset(@RequestBody Asset asset){
         logger.info("Asset to add: " + asset);
         return AssetService.saveAsset(asset);
     }
+
+    //Obtener un producto por Id http://localhost:8080/asset-app/assets/{id}
+    @GetMapping("assets/{id}")
+        public Asset getAssetById(@PathVariable Long id){
+        logger.info("Asset to get: " + id);
+        return AssetService.getAssetById(id);
+    }
+
+
 
 }
