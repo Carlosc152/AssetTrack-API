@@ -1,5 +1,6 @@
 package com.carlos.assettrack.assettrack.service;
 
+import com.carlos.assettrack.assettrack.exception.ResourceNotFoundException;
 import com.carlos.assettrack.assettrack.model.Asset;
 import com.carlos.assettrack.assettrack.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,11 @@ public class AssetService implements IAssetService{
 
     @Override
     public Asset getAssetById(Long id) {
-        return assetRepository.findById(Math.toIntExact(id)).orElse(null);
+
+        return assetRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Asset no encontrado con id " + id));
     }
 
     @Override
@@ -31,7 +36,7 @@ public class AssetService implements IAssetService{
 
     @Override
     public void deleteAssetById(Long id) {
-        assetRepository.deleteById(Math.toIntExact(id));
+        assetRepository.deleteById(id);
 
     }
 }
