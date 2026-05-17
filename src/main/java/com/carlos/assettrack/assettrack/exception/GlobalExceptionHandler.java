@@ -1,6 +1,7 @@
 package com.carlos.assettrack.assettrack.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,18 @@ public class GlobalExceptionHandler {
 
         Map<String, String> error = new HashMap<>();
         error.put("message", ex.getMessage());
+
+        return error;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public @ResponseBody Map<String, String> handleInvalidEnumException(
+            HttpMessageNotReadableException ex) {
+
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Formato de datos inválido");
+        error.put("message", "El valor enviado para el estado o algún campo no es válido. Verifica las opciones permitidas.");
 
         return error;
     }
