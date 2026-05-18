@@ -1,6 +1,8 @@
 package com.carlos.assettrack.assettrack.service;
 
+import com.carlos.assettrack.assettrack.dto.CategoryDTO;
 import com.carlos.assettrack.assettrack.exception.ResourceNotFoundException;
+import com.carlos.assettrack.assettrack.mapper.CategoryMapper;
 import com.carlos.assettrack.assettrack.model.Asset;
 import com.carlos.assettrack.assettrack.model.Category;
 import com.carlos.assettrack.assettrack.repository.CategoryRepository;
@@ -14,9 +16,16 @@ public class CategoryService implements ICategoryService{
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
     //Metodo para obtener todas las categorias
     @Override
-    public List<Category> getAllCategories() { return categoryRepository.findAll();
+    public List<CategoryDTO> getAllCategories() {
+        List<Category> categories = categoryRepository.findAll();
+        return categories.stream()
+                .map(categoryMapper::toDTO)
+                .toList();
     }
 
     //Metodo para obtener un metodo por id
